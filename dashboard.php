@@ -16,7 +16,8 @@ $stmt->bind_result($first_name, $last_name);
 $stmt->fetch();
 $stmt->close();
 
-if (isset($_POST["update"])) {
+if (isset($_POST["update"]))//record update functionality
+{
     $new_firstname = trim($_POST['firstname']);
     $new_lastname = trim($_POST['lastname']);
     $new_username = trim($_POST['new_username']);
@@ -32,7 +33,7 @@ if (isset($_POST["update"])) {
     if ($stmt->execute()) {
         echo "<p style='color:green;'>Profile updated successfully!</p>";
 
-        $_SESSION["username"] = $new_username;
+        $_SESSION["username"] = $new_username;//session update if username is changed
         $username = $new_username;
         $first_name = $new_firstname;
         $last_name = $new_lastname;
@@ -41,7 +42,8 @@ if (isset($_POST["update"])) {
     }
 }
 
-if (isset($_POST["delete"])) {
+if (isset($_POST["delete"]))//delete functionality 
+{
     $stmt = $conn->prepare("DELETE FROM client WHERE username=?");
     $stmt->bind_param("s", $username);
 
@@ -76,5 +78,6 @@ if (isset($_POST["delete"])) {
 <form method="POST">
     <button type="submit" name="delete" onclick="return confirm('Are you sure? This action is irreversible.');">Delete My Account</button>
 </form>
-
-<a href="logout.php">Logout</a>
+<form method="POST" action="logout.php">
+    <button type="submit" name="logout">Logout</button>
+</form>
