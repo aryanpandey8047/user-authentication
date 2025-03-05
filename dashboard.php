@@ -40,3 +40,22 @@ if (isset($_POST["update"])) {
         echo "<p style='color:red;'>Error updating profile!</p>";
     }
 }
+
+if (isset($_POST["delete"])) {
+    $stmt = $conn->prepare("DELETE FROM client WHERE username=?");
+    $stmt->bind_param("s", $username);
+
+    if ($stmt->execute()) {
+        if ($stmt->affected_rows > 0) {
+            session_unset();
+            session_destroy();
+            header("Location: register.php");
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error: No records were deleted.</p>";
+        }
+    } else {
+        echo "<p style='color:red;'>Error deleting account!</p>";
+    }
+}
+?>
