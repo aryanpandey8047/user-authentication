@@ -72,3 +72,9 @@ if (isset($_POST["delete"])) {
     <button type="submit" name="update">Update Profile</button>
 </form>
 
+<h3>Delete Account</h3>
+<form method="POST">
+    <button type="submit" name="delete" onclick="return confirm('Are you sure? This action is irreversible.');">Delete My Account</button>
+</form>
+
+<a href="logout.php">Logout</a>
