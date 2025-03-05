@@ -59,3 +59,16 @@ if (isset($_POST["delete"])) {
     }
 }
 ?>
+
+<h2>Welcome, <?php echo htmlspecialchars($first_name . " " . $last_name); ?>!</h2>
+<p>Username: <?php echo htmlspecialchars($username); ?></p>
+
+<h3>Edit Profile</h3>
+<form method="POST">
+    <input type="text" name="firstname" value="<?php echo htmlspecialchars($first_name); ?>" required><br>
+    <input type="text" name="lastname" value="<?php echo htmlspecialchars($last_name); ?>" required><br>
+    <input type="text" name="new_username" value="<?php echo htmlspecialchars($username); ?>" required><br>
+    <input type="password" name="password" placeholder="New Password (optional)"><br>
+    <button type="submit" name="update">Update Profile</button>
+</form>
+
