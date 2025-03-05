@@ -1,7 +1,12 @@
 <?php
 session_start();
 include "config.php";
-
+$recordExists = false;
+$result = $conn->query("SELECT COUNT(*) as count FROM client");
+$row = $result->fetch_assoc();
+if ($row['count'] > 0) {
+    $recordExists = true;
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
 {
     $firstname = trim($_POST['firstname']);
@@ -9,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    $stmt = $conn->prepare("INSERT INTO client (first_name, last_name, username, password) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO client (first_name, last_name, username, password) VALUES (?, ?, ?, ?)");//creating records
     $stmt->bind_param("ssss", $firstname, $lastname, $username, $password);
 
     if ($stmt->execute()) 
@@ -20,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         echo "<p style='color:red;'>Error: Could not register user.</p>";
     }
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM client");//TO Check if the database has any records
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM client");//TO Check if the database has any records inorder to hide login if no record is present in the table
     $stmt->execute();
     $stmt->bind_result($user_count);
     $stmt->fetch();
