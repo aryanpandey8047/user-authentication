@@ -20,3 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($stored_password);
         $stmt->fetch();
+
+        if ($password === $stored_password) { 
+            $_SESSION["username"] = $username;
+            header("Location: dashboard.php");
+            exit;  
+        } else {
+            echo "<p style='color:red;'>Incorrect password!</p>";
+        }
+    } else {
+        echo "<p style='color:red;'>Username not found!</p>";
+    }
+
+    $stmt->close();
+}
+?>
