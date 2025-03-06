@@ -17,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $password = trim($_POST['password']);
 
 
-    $stmt = $conn->prepare("INSERT INTO client (first_name, last_name, username, password,city,email) VALUES (?, ?, ?, ?,?,)");//creating records
-    $stmt->bind_param("ssss", $firstname, $lastname, $username, $password);
+    $stmt = $conn->prepare("INSERT INTO client (first_name, last_name, username, password,city,email) VALUES (?, ?, ?, ?, ?, ?)");//creating records
+    $stmt->bind_param("ssssss", $firstname, $lastname, $username, $password,$city,$email);
 
     if ($stmt->execute()) 
     {
