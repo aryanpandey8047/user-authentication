@@ -12,9 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
     $username = trim($_POST['username']);
+    $city=trim($_POST['city']);
+    $email=trim($_POST['email']);
     $password = trim($_POST['password']);
 
-    $stmt = $conn->prepare("INSERT INTO client (first_name, last_name, username, password) VALUES (?, ?, ?, ?)");//creating records
+
+    $stmt = $conn->prepare("INSERT INTO client (first_name, last_name, username, password,city,email) VALUES (?, ?, ?, ?,?,)");//creating records
     $stmt->bind_param("ssss", $firstname, $lastname, $username, $password);
 
     if ($stmt->execute()) 
@@ -42,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     <input type="text" name="firstname" placeholder="First name" required><br>
     <input type="text" name="lastname" placeholder="Last name" required><br>
     <input type="text" name="username" placeholder="Username" required><br>
+    <input type="text" name="city" placeholder="city name" required><br>
+    <input type="text" name="email" placeholder="email address" required><br>
     <input type="password" name="password" placeholder="Password" required><br>
     <button type="submit">Register</button>
 </form>
