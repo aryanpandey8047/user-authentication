@@ -46,3 +46,57 @@ $result = $stmt->get_result();
                 <a href="dashboard.php?delete=<?php echo $row['username']; ?>" onclick="return confirm('Are you sure?');">Delete</a>
             </td>
         </tr>
+        <?php endwhile; ?>
+</table>
+
+<form method="POST">
+    <button type="submit" name="logout">Logout</button>
+</form>
+
+<?php
+// Logout functionality
+if (isset($_POST["logout"])) {
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+
+// delete user
+if (isset($_GET["delete"])) {
+    $deleteUser = $_GET["delete"];
+    $stmt = $conn->prepare("DELETE FROM client WHERE username=?");
+    $stmt->bind_param("s", $deleteUser);
+    if ($stmt->execute()) {
+        echo "<p style='color: red;'>User deleted successfully!</p>";
+        header("Refresh:0; url=dashboard.php"); // Refresh the page
+    } else {
+        echo "<p style='color: red;'>Error deleting user.</p>";
+    }
+}
+// edit user
+if (isset($_GET["edit"])) {
+    $editUser = $_GET["edit"];
+    $stmt = $conn->prepare("SELECT first_name, last_name FROM client WHERE username=?");
+    $stmt->bind_param("s", $editUser);
+    $stmt->execute();
+    $stmt->bind_result($firstname, $lastname);
+    $stmt->fetch();
+    $stmt->close();
+?>
+
+<h3>Edit User: <?php echo htmlspecialchars($editUser); ?></h3>
+<form method="POST">
+    <input type="hidden" name="edit_username" value="<?php echo htmlspecialchars($editUser); ?>">
+    <input type="text" name="firstname" value="<?php echo htmlspecialchars($firstname); ?>" required><br>
+    <input type="text" name="lastname" value="<?php echo htmlspecialchars($lastname); ?>" required><br>
+    <button type="submit" name="update">Update</button>
+</form>
+
+<?php
+}
+
+// update user
+if (isset($_POST["update"])) {
+    $editUsername = $_POST["edit_username"];
+    $newFirstname = $_POST["firstname"];
+    $newLastname = $_POST["lastname"];
