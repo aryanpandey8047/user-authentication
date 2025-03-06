@@ -100,3 +100,16 @@ if (isset($_POST["update"])) {
     $editUsername = $_POST["edit_username"];
     $newFirstname = $_POST["firstname"];
     $newLastname = $_POST["lastname"];
+    $stmt = $conn->prepare("UPDATE client SET first_name=?, last_name=? WHERE username=?");
+    $stmt->bind_param("sss", $newFirstname, $newLastname, $editUsername);
+    if ($stmt->execute()) {
+        echo "<p style='color: green;'>User updated successfully!</p>";
+        header("Refresh:0; url=dashboard.php"); // 
+    } else {
+        echo "<p style='color: red;'>Error updating user.</p>";
+    }
+}
+?>
+
+</body>
+</html>
